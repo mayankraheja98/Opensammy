@@ -1,4 +1,4 @@
-#About
+# About
 
 OpenSammy is a tool created for Security Leaders to evaluate their organizations security posture based on the OpenSAMM v1.5
 
@@ -8,10 +8,10 @@ Hover your mouse cursor on each stage and question to gain access to more inform
 
 Get started by visiting https://opensammy.onrender.com/ 
 
-#Hosted Live
+# Hosted Live
 You can access the Opensammy calculator at https://opensammy.onrender.com/
 
-#Hosted OnPrem
+# Hosted OnPrem
 Follow the below steps to host the calculator in your own environment
 
     git clone https://github.com/mayankraheja98/Opensammy
