@@ -1,0 +1,290 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenSammy</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #f2f2f2;
+    }
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h2 {
+        color: #333;
+    }
+    h4 {
+        margin-top: 20px;
+    }
+    .button-group {
+        display: flex;
+        justify-content: center;
+    }
+    .button-group button {
+        flex: 1;
+        padding: 10px 20px;
+        margin: 0 10px;
+        border-radius: 5px;
+        cursor: pointer;
+        border: none;
+    }
+    .button-group button.selected {
+        background-color: lightblue;
+    }
+    button {
+        display: inline-block;
+        width: calc(50% - 20px);
+        padding: 10px;
+        margin: 0 10px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    #finalScore {
+        margin-top: 20px;
+    }
+    #calculateScoreBtn {
+        background-color: #28a745; 
+        font-size: 18px; 
+        padding: 15px; 
+    }
+    #nextButton {
+        background-color: #dc3545; 
+        margin-top: 20px;
+        margin-right: 0;
+        font-size: 16px; 
+        padding: 12px 20px; 
+        border-radius: 5px;
+        transition: background-color 0.3s ease;
+    }
+    #nextButton:hover {
+        background-color: #c82333; /* Change hover background color */
+    }
+    .question {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+    .question-details {
+        display: none;
+        width: 200px;
+        background-color: lightblue;
+        color: black;
+        text-align: center;
+        padding: 10px;
+        border-radius: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 80%; /* Position above the question */
+        left: 100%;
+        margin-left: -100px; /* Center the tooltip */
+    }
+    .question:hover .question-details {
+        display: block;
+    }
+    .stage {
+        position: relative;
+        display: inline-block;
+        cursor: pointer;
+    }
+    .stage-details {
+        display: none;
+        width: 500px;
+        background-color: pink;
+        color: black;
+        text-align: center;
+        padding: 10px;
+        border-radius: 5px;
+        position: absolute;
+        z-index: 1;
+        bottom: 0%; /* Position above the question */
+        left: 100%;
+        margin-left: 50px; /* Center the tooltip */
+    }
+    .stage:hover .stage-details {
+        display: block;
+    }
+</style>
+</head>
+<body>
+<div class="container">
+    <h2>Security Requirements</h2>
+    <div id="questionSet1">
+        <div class="stage">
+            <h4>Stage 1</h4>
+            <div class="stage-details"><b>Objective:</b>Consider security explicitly during the software requirements process. <br>
+            <b>Activities:</b> 
+            A.Derive security requirements from business functionality<br>
+            B.Evaluate security and compliance guidance for requirements
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Question 1: Do most project teams specify some security requirements during development?
+            <div class="question-details">Mark Yes if, >50% of project teams with explicitly defined security requirements</div></p>
+            <div class="button-group">
+                <button onclick="toggleSelection('no','q1-1')" id="q1-1-no">No</button>
+                <button onclick="toggleSelection('yes','q1-1')" id="q1-1-yes">Yes</button>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Question 2: Do project teams pull requirements from bestpractices and compliance guidance?
+            <div class="question-details">Mark Yes if, >50% of project teams with explicitly defined security requirements</div></p>
+            <div class="button-group">
+                <button onclick="toggleSelection('no','no','q1-2')" id="q1-2-no">No</button>
+                <button onclick="toggleSelection('yes','q1-2')" id="q1-2-yes">Yes</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="questionSet2">
+        <div class="stage">
+            <h4>Stage 2</h4>
+            <div class="stage-details"><b>Objective:</b>Increase granularity of security requirements derived from business logic and known risks. <br>
+            <b>Activities:</b> 
+            A.Build an access control matrix for resources and capabilities<br>
+            B.Specify security requirements based on known risks
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Question 1: Are most stakeholders reviewing access control matrices for relevant projects?
+            <div class="question-details">Mark Yes if, >75% of all projects with updated abusecase models within past six months</div></p>
+            <div class="button-group">
+                <button onclick="toggleSelection('no','q2-1')" id="q2-1-no">No</button>
+                <button onclick="toggleSelection('yes','q2-1')" id="q2-1-yes">Yes</button>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Question 2: Are project teams specifying requirements based on feedback from other security activities?
+            <div class="question-details">Mark Yes if, >75% of all projects with updated abusecase models within past six months</div></p>
+            <div class="button-group">
+                <button onclick="toggleSelection('no','q2-2')" id="q2-2-no">No</button>
+                <button onclick="toggleSelection('yes','q2-2')" id="q2-2-yes">Yes</button>
+            </div>
+        </div>
+    </div>
+
+    <div id="questionSet3">
+        <div class="stage">
+            <h4>Stage 3</h4>
+            <div class="stage-details"><b>Objective:</b>Mandate security requirements process for all software projects and third-party dependencies. <br>
+            <b>Activities:</b> 
+            A.Build security requirements into supplier agreements<br>
+            B.Expand audit program for security requirements
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Question 1: Are most stakeholders reviewing vendor agreements for security requirements?
+            <div class="question-details">Mark Yes if, >80% of vendor agreements analyzed for contractual security requirements in the past 12 months</div></p>
+            <div class="button-group">
+                <button onclick="toggleSelection('no','q3-1')" id="q3-1-no">No</button>
+                <button onclick="toggleSelection('yes','q3-1')" id="q3-1-yes">Yes</button>
+            </div>
+        </div>
+
+        <div class="question">
+            <p>Question 2: Are the security requirements specified by project teams being audited?
+            <div class="question-details">Mark Yes if, >80% of projects passing security requirements audit in past six months</div></p>
+            <div class="button-group">
+                <button onclick="toggleSelection('no','q3-2')" id="q3-2-no">No</button>
+                <button onclick="toggleSelection('yes','yes','q3-2')" id="q3-2-yes">Yes</button>
+            </div>
+        </div>
+    </div>
+
+<br>
+<button id="calculateScoreBtn" onclick="calculateScoreAndScroll()">Calculate Score</button>
+
+<p id="finalScore" style="display: none;"></p>
+
+<button id="nextButton" onclick="window.location.href='SecurityArchitecture.html'" style="display: none;">Next</button>
+</div>
+
+<script>
+    function calculateScore() {
+        var score1 = calculateScoreFor2Set("questionSet1");
+        var score2 = calculateScoreFor2Set("questionSet2");
+        var score3 = calculateScoreFor2Set("questionSet3");
+
+        var finalScore = calculateFinalScore(score1, score2, score3);
+        localStorage.setItem("SecurityRequirementsFinalScore", finalScore);
+
+        document.getElementById("finalScore").textContent = "Your final score is: " + finalScore;
+        document.getElementById("finalScore").style.display = "block";
+        document.getElementById("nextButton").style.display = "block";
+    }
+
+    function calculateScoreFor2Set(setId) {
+        var question1 = document.getElementById(setId).querySelectorAll("button")[0].classList.contains("selected") ? "no" : "yes";
+        var question2 = document.getElementById(setId).querySelectorAll("button")[2].classList.contains("selected") ? "No" : "Yes";
+        var score = 0;
+
+        if (question1 === "yes" && question2 === "Yes") {
+            score = 1;
+        } else if (question1 === "yes" || question2 === "Yes") {
+            score = "0+";
+        }
+        return score;
+    }
+
+    function calculateFinalScore(score1, score2, score3) {
+        if (score1 === 0 && score2 === 0 && score3 === 0) {
+            return 0;
+        } else if (score1 === 1 && score2 === 1 && score3 === 1) {
+            return 3;
+        } else if (score1 === 1 && score2 === 1 && score3 === "0+") {
+            return "2+";
+        } else if (score1 === 1 && score2 === 1 && score3 === 0) {
+            return 2;
+        } else if (score1 === 1 && score2 === "0+") {
+            return "1+";
+        } else if (score1 === 1 && score2 === 0 && (score3 === 1 || score3 === "0+")) {
+            return "1+";
+        } else if (score1 === 1 && score2 === 0 && score3 === 0) {
+            return 1;
+        } else if (score1 === "0+") {
+            return "0+";
+        } else if (score1 === 0 && (score2 !== 0 || score3 !== 0)) {
+            return "0+";
+        } else {
+            return 0;
+        }
+    }
+
+    function calculateScoreAndScroll() {
+            calculateScore();
+            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+    function toggleSelection(selected, questionId) {
+        var yesButtonId = questionId + '-yes';
+        var noButtonId = questionId + '-no';
+
+        if (selected === 'yes') {
+            document.getElementById(yesButtonId).classList.add('selected');
+            document.getElementById(noButtonId).classList.remove('selected');
+        } else if (selected === 'no') {
+            document.getElementById(noButtonId).classList.add('selected');
+            document.getElementById(yesButtonId).classList.remove('selected');
+        }
+    }
+</script>
+</body>
+</html>

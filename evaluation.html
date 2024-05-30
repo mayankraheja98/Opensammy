@@ -1,0 +1,211 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
+	body {
+        font-family: Arial, sans-serif;   
+    }
+    #finalScore {
+    	float: left;
+    	width: 35%;
+    	height: 200px;
+    }
+    #radarChart {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        width: 450px; 
+        height: 200px; 
+        margin: auto;
+    }
+    #finalChart {
+    	width: 1300px;
+    	height: 300px;
+    	width:100%;
+    	max-width:500px;
+    	margin-left: auto;
+    	margin-right: auto;"
+    	
+    }
+    table, th, td {
+  border: 1px solid black;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+    }
+    
+</style>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/4.1.2/chart.umd.js">
+	</script>
+<title>OpenSammy</title>
+</head>
+
+<body>
+<button onclick="window.print()" style="float: right;">Download report</button>
+<div>
+<h3 style="text-align: center;">OpenSamm Security Posture</h3>
+<div id="finalScore">
+  <br><br><br>
+    <table>
+  <tr>
+    <th>Subpillar</th>
+    <th>Score</th>
+  </tr>
+  <tr>
+    <td>Strategy & Metrics</td>
+    <td><span id="StrategyMetricsFinalScore"></span></td>
+  </tr>
+  <tr>
+    <td>Policy & Compliance</td>
+    <td><span id="PolicyComplianceFinalScore"></span></td>
+  </tr>
+  <tr>
+    <td>Education & Guidance</td>
+    <td><span id="EducationGuidanceFinalScore"></span></td>
+  </tr>
+  <tr>
+    <td>Threat Assessment</td>
+    <td><span id="ThreatAssessmentFinalScore"></span></td>
+  </tr>
+  <tr>
+    <td>Security Requirements</td>
+    <td><span id="SecurityRequirementsFinalScore"></span></td>
+  </tr>
+  <tr>
+    <td>Security Architecture</td>
+    <td><span id="SecurityArchitectureFinalScore"></span></td>
+  </tr>
+  <tr>
+    <td>Design Review</td>
+    <td><span id="DesignReviewFinalScore"></span></td>
+  </tr>
+  <tr>
+    <td>Code Review</td>
+    <td><span id="CodeReviewFinalScore"></span></td>
+  </tr>
+  <tr>
+    <td>Security Testing</td>
+    <td><span id="SecurityTestingFinalScore"></span></td>
+  </tr>
+  <tr>
+    <td>Vulnerability Management</td>
+    <td><span id="VulnerabilityManagementFinalScore"></span></td>
+  </tr>
+  <tr>
+    <td>Environment Hardening</td>
+    <td><span id="EnvironmentHardeningFinalScore"></span></td>
+  </tr>
+  <tr>
+    <td>Operational Enablement</td>
+    <td><span id="OperationalEnablementFinalScore"></span></td>
+  </tr>
+</table>
+</div>
+
+<div id="radarChartContainer">
+<canvas id="radarChart"></canvas>
+</div>
+<div id="finalChart">
+<canvas id="barChart"></canvas>
+</div>
+</div>
+<script>
+	function round(score){
+        if (score === "0+") {
+            return "0.5";
+        } else if (score === "1+") {
+            return "1.5";
+        } else if (score === "2+") {
+            return "2.5";
+        }
+        return score;
+    }
+
+    var StrategyMetricsFinalScore = localStorage.getItem("StrategyMetricsFinalScore");
+    var PolicyComplianceFinalScore = localStorage.getItem("PolicyComplianceFinalScore");
+    var EducationGuidanceFinalScore = localStorage.getItem("EducationGuidanceFinalScore");
+    var ThreatAssessmentFinalScore = localStorage.getItem("ThreatAssessmentFinalScore");
+    var SecurityRequirementsFinalScore = localStorage.getItem("SecurityRequirementsFinalScore");
+    var SecurityArchitectureFinalScore = localStorage.getItem("SecurityArchitectureFinalScore");
+    var DesignReviewFinalScore = localStorage.getItem("DesignReviewFinalScore");
+    var CodeReviewFinalScore = localStorage.getItem("CodeReviewFinalScore");
+    var SecurityTestingFinalScore = localStorage.getItem("SecurityTestingFinalScore");
+    var VulnerabilityManagementFinalScore = localStorage.getItem("VulnerabilityManagementFinalScore");
+    var EnvironmentHardeningFinalScore = localStorage.getItem("EnvironmentHardeningFinalScore");
+    var OperationalEnablementFinalScore = localStorage.getItem("OperationalEnablementFinalScore");
+
+    document.getElementById("StrategyMetricsFinalScore").textContent = StrategyMetricsFinalScore;
+    document.getElementById("PolicyComplianceFinalScore").textContent = PolicyComplianceFinalScore;
+    document.getElementById("EducationGuidanceFinalScore").textContent = EducationGuidanceFinalScore;
+    document.getElementById("ThreatAssessmentFinalScore").textContent = ThreatAssessmentFinalScore;
+    document.getElementById("SecurityRequirementsFinalScore").textContent = SecurityRequirementsFinalScore;
+    document.getElementById("SecurityArchitectureFinalScore").textContent = SecurityArchitectureFinalScore;
+    document.getElementById("DesignReviewFinalScore").textContent = DesignReviewFinalScore;
+    document.getElementById("CodeReviewFinalScore").textContent = CodeReviewFinalScore;
+    document.getElementById("SecurityTestingFinalScore").textContent = SecurityTestingFinalScore;
+    document.getElementById("VulnerabilityManagementFinalScore").textContent = VulnerabilityManagementFinalScore;
+    document.getElementById("EnvironmentHardeningFinalScore").textContent = EnvironmentHardeningFinalScore;
+    document.getElementById("OperationalEnablementFinalScore").textContent = OperationalEnablementFinalScore;
+
+	let ctx = document.getElementById('radarChart').getContext('2d');
+	let myRadarChart = new Chart(ctx, {
+	type: 'radar',
+	data: {
+		labels:
+			['Strategy & Metrics','Policy & Compliance','Education & Guidance','Threat Assessment','Security Requirements','Security Architecture','Design Review','Code Review','Security Testing','Vulnerability Management','Environment Hardening','Operational Enablement'],
+		datasets: [{
+			label: 'Subpillar score',
+			data: [round(StrategyMetricsFinalScore), round(PolicyComplianceFinalScore), round(EducationGuidanceFinalScore), round(ThreatAssessmentFinalScore), round(SecurityRequirementsFinalScore), round(SecurityArchitectureFinalScore), round(DesignReviewFinalScore), round(CodeReviewFinalScore), round(SecurityTestingFinalScore), round(VulnerabilityManagementFinalScore), round(EnvironmentHardeningFinalScore), round(OperationalEnablementFinalScore)],
+			backgroundColor: 'rgba(75, 192, 192, 0.2)',
+			borderColor: 'rgba(75, 192, 0, 1)',
+			borderWidth: 2,
+				}]
+			},
+		options: {
+      plugins:{
+        legend: {display: false}
+      },
+			scales: {
+        beginAtZero:true,
+        animate:true
+			}
+		}
+	});
+
+    const xValues = ['Strategy & Metrics','Policy & Compliance','Education & Guidance','Threat Assessment','Security Requirements','Security Architecture','Design Review','Code Review','Security Testing','Vulnerability Management','Environment Hardening','Operational Enablement'];
+    const yValues = [round(StrategyMetricsFinalScore), round(PolicyComplianceFinalScore), round(EducationGuidanceFinalScore), round(ThreatAssessmentFinalScore), round(SecurityRequirementsFinalScore), round(SecurityArchitectureFinalScore), round(DesignReviewFinalScore), round(CodeReviewFinalScore), round(SecurityTestingFinalScore), round(VulnerabilityManagementFinalScore), round(EnvironmentHardeningFinalScore), round(OperationalEnablementFinalScore)];
+    const barColors = ["red", "green","blue", "orange", "pink", "purple", "brown", "yellow", "magenta", "black", "grey", "coral"];
+
+    new Chart("barChart", {
+      type: "bar",
+      data: {
+        labels: xValues,
+        datasets: [{
+          data: yValues,
+          
+          barPercentage: 5,
+          barThickness: 20,
+          maxBarThickness: 30,
+          minBarLength: 5,
+          //backgroundColor: barColors
+        }]
+      },
+      options: {
+        plugins:{
+        legend: {display: false}
+      },
+        title: {
+          display: true,
+          text: "OpenSAMM : Results"
+        },
+        tooltips: {
+      mode: 'index'
+   }
+      }
+    });
+</script>
+
+</body>
+</html>

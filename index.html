@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenSammy</title>
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #f2f2f2;
+    }
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1 {
+        color: #333;
+    }
+    button {
+        display: block;
+        width: 100%;
+        padding: 10px;
+        margin: 10px 0;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+    .selected {
+        background-color: lightblue;
+    }
+    #main-button {
+        background-color: #007bff;
+        color: #fff;
+    }
+</style>
+</head>
+<body>
+
+<div class="container">
+<h3>OpenSammy</h3>
+
+OpenSammy is a tool created for Security Leaders to evaluate their organizations security posture based on the OpenSAMM v1.5<br><br>
+There are 4 Pillars each having its 3 SubPillars. Each SubPillar has 3 Stages. You need to answer Yes/No based questions in each stage.<br><br>
+Hover your mouse cursor on each stage and question to gain access to more information like Objective, Activities and Success Metrics which will enable you to answer questions more accurately.<br><br>
+Get started by clicking on Pillar 1 button below!
+
+<br><br><br>
+
+<button id="main-button" onclick="window.location.href='governance.html'">Pillar 1 - Governance</button>
+
+<button onclick="alert('Assessment starts with Pillar 1 - Governance')">Pillar 2 - Construction</button>
+
+<button onclick="alert('Assessment starts with Pillar 1 - Governance')">Pillar 3 - Verification</button>
+
+<button onclick="alert('Assessment starts with Pillar 1 - Governance')">Pillar 4 - Deployment</button>
+
+</div>
+</body>
+<p> Created by <a href="https://www.mayankraheja.com" target="_blank">Mayank Raheja</a></p>
+</html>

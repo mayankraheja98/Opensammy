@@ -1,0 +1,142 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>OpenSammy</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.css">
+<style>
+    body {
+        font-family: Arial, sans-serif;
+        text-align: center;
+        background-color: #f2f2f2;
+    }
+    .container {
+        max-width: 600px;
+        margin: 0 auto;
+        padding: 20px;
+        background-color: #fff;
+        border-radius: 10px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    h1, h2 {
+        color: #333;
+    }
+    table {
+        width: 100%;
+        margin: 20px auto;
+        border-collapse: collapse;
+    }
+    th, td {
+        padding: 10px;
+        border: 1px solid #ccc;
+    }
+    th {
+        background-color: #f2f2f2;
+    }
+    #finalChart {
+        margin-top: 5px;
+    }
+    button {
+        padding: 10px 20px;
+        background-color: #007bff;
+        color: #fff;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background-color 0.3s ease;
+    }
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
+</head>
+
+<body>
+    <div class="container">
+        <h3>Pillar 2 - Construction</h3>
+
+        <div id="finalScore">
+        <table>
+          <tr>
+            <th>Subpillar</th>
+            <th>Score</th>
+          </tr>
+          <tr>
+            <td>Threat Assessment</td>
+            <td><span id="ThreatAssessmentFinalScore"></span></td>
+          </tr>
+          <tr>
+            <td>Security Requirements</td>
+            <td><span id="SecurityRequirementsFinalScore"></span></td>
+          </tr>
+          <tr>
+            <td>Security Architecture</td>
+            <td><span id="SecurityArchitectureFinalScore"></span></td>
+          </tr>
+        </table>
+        </div>
+
+        <div id="finalChart">
+        <canvas id="barChart" width="400" height="200"></canvas>
+        </div>
+
+    <button id="pillarButton" onclick="window.location.href='verification.html'">Pillar 3 - Verification</button>
+</div>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.9.4/Chart.min.js"></script>
+
+<script>
+    var ThreatAssessmentFinalScore = localStorage.getItem("ThreatAssessmentFinalScore");
+    var SecurityRequirementsFinalScore = localStorage.getItem("SecurityRequirementsFinalScore");
+    var SecurityArchitectureFinalScore = localStorage.getItem("SecurityArchitectureFinalScore");
+
+    document.getElementById("ThreatAssessmentFinalScore").textContent = ThreatAssessmentFinalScore;
+    document.getElementById("SecurityRequirementsFinalScore").textContent = SecurityRequirementsFinalScore;
+    document.getElementById("SecurityArchitectureFinalScore").textContent = SecurityArchitectureFinalScore;
+
+    function round(score){
+        if (score === "0+") {
+            return "0.5";
+        } else if (score === "1+") {
+            return "1.5";
+        } else if (score === "2+") {
+            return "2.5";
+        }
+        return score;
+    }
+
+    const xValues = ["Threat Assessment", "Security Requirements", "Security Architecture"];
+    const yValues = [round(ThreatAssessmentFinalScore), round(SecurityRequirementsFinalScore), round(SecurityArchitectureFinalScore)];
+    const barColors = ["rgba(255, 99, 132, 0.7)", "rgba(54, 162, 235, 0.7)", "rgba(255, 206, 86, 0.7)"];
+
+    new Chart("barChart", {
+      type: "bar",
+      data: {
+        labels: xValues,
+        datasets: [{
+          data: yValues,
+          backgroundColor: barColors,
+          barThickness: 60,
+        }]
+      },
+      options: {
+        legend: { display: false },
+        title: {
+          display: true,
+          text: "Construction: Results"
+        },
+        scales: {
+          yAxes: [{
+            ticks: {
+              beginAtZero: true
+            }
+          }]
+        }
+      }
+    });
+</script>
+
+</body>
+</html>
